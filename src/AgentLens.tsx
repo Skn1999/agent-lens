@@ -22,7 +22,7 @@ export const AgentLens: React.FC<AgentLensProps> = ({
   const [isInspectActive, setIsInspectActive] = useState(false);
   const [isTrayOpen, setIsTrayOpen] = useState(false);
   const [freezeCountdown, setFreezeCountdown] = useState<number | null>(null);
-  const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const countdownIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Setup Shadow DOM on mount for true style isolation
   useEffect(() => {
