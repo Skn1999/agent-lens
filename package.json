@@ -44,8 +44,17 @@
     "visual-feedback",
     "figma",
     "react",
-    "arc-ui"
+    "review",
+    "annotation",
+    "prompt-engineering"
   ],
+  "homepage": "https://github.com/Skn1999/agent-lens#readme",
+  "bugs": {
+    "url": "https://github.com/Skn1999/agent-lens/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "Sumit Nayyar",
   "license": "MIT",
   "peerDependencies": {
