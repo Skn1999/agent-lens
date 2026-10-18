@@ -22,20 +22,20 @@ A visual review and feedback overlay for React applications, designed to generat
 
 ### Package Manager Installation
 
-Install `agent-lens` as a development dependency in your project:
+Install `@naylabs/agent-lens` as a development dependency in your project:
 
 ```bash
 # npm
-npm install --save-dev agent-lens
+npm install --save-dev @naylabs/agent-lens
 
 # pnpm
-pnpm add -D agent-lens
+pnpm add -D @naylabs/agent-lens
 
 # yarn
-yarn add -D agent-lens
+yarn add -D @naylabs/agent-lens
 
 # bun
-bun add -d agent-lens
+bun add -d @naylabs/agent-lens
 ```
 
 ### Installing in Your System (Local Development / Linking)
@@ -59,7 +59,7 @@ npm run build
 2. In your target project directory, link the package:
    ```bash
    cd /path/to/your-project
-   npm link agent-lens
+   npm link @naylabs/agent-lens
    ```
 
 #### Option C: Install Directly via Local File Path
@@ -79,7 +79,7 @@ Mount `<AgentLens />` at the root of your React application (for example, in `Ap
 
 ```tsx
 import React from 'react';
-import { AgentLens } from 'agent-lens';
+import { AgentLens } from '@naylabs/agent-lens';
 
 export default function App() {
   return (
