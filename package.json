@@ -1,6 +1,6 @@
 {
   "name": "@naylabs/agent-lens",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Figma-style visual review canvas designed for AI coding agents. Inspect, pin, comment, and copy structured execution prompts.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

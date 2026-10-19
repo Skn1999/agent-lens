@@ -29,6 +29,9 @@ export const ArcPopover: React.FC<ArcPopoverProps> = ({ pin, onSave, onDelete, o
   }, []);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    // Prevent keystrokes while typing a note from propagating to document/window hotkey listeners
+    e.stopPropagation();
+
     if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
       e.preventDefault();
       onSave(instruction, category);
@@ -55,6 +58,14 @@ export const ArcPopover: React.FC<ArcPopoverProps> = ({ pin, onSave, onDelete, o
         left: `${left}px`,
       }}
       onClick={(e) => e.stopPropagation()}
+      onKeyDown={(e) => {
+        // Prevent hotkeys from triggering when interacting inside the popover
+        e.stopPropagation();
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          onClose();
+        }
+      }}
     >
       <div className="arc-popover-header">
         <span className="arc-component-badge" title={pin.metadata.sourceFile || pin.metadata.selector}>
@@ -73,7 +84,10 @@ export const ArcPopover: React.FC<ArcPopoverProps> = ({ pin, onSave, onDelete, o
             key={cat.id}
             type="button"
             className={`arc-chip ${category === cat.id ? 'selected' : ''}`}
-            onClick={() => setCategory(cat.id)}
+            onClick={() => {
+              setCategory(cat.id);
+              textareaRef.current?.focus();
+            }}
           >
             {cat.label}
           </button>

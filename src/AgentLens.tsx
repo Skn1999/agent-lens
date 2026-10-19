@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { AgentLensProps, AgentPin, PinCategory } from './types';
 import { extractElementMetadata } from './core/extractor';
 import { compileAgentPrompt } from './core/prompt-compiler';
+import { isUserTyping } from './core/hotkey-guard';
 import { ARC_THEME_CSS } from './styles/arc-theme';
 import { ArcDock } from './components/ArcDock';
 import { ArcInspector } from './components/ArcInspector';
@@ -19,6 +20,9 @@ export const AgentLens: React.FC<AgentLensProps> = ({
 
   const [pins, setPins] = useState<AgentPin[]>([]);
   const [activePinId, setActivePinId] = useState<string | null>(null);
+  const activePinIdRef = useRef<string | null>(null);
+  activePinIdRef.current = activePinId;
+
   const [isInspectActive, setIsInspectActive] = useState(false);
   const [isTrayOpen, setIsTrayOpen] = useState(false);
   const [freezeCountdown, setFreezeCountdown] = useState<number | null>(null);
@@ -83,22 +87,27 @@ export const AgentLens: React.FC<AgentLensProps> = ({
   // Keyboard shortcut listener
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      const activeEl = document.activeElement;
-      const isInput =
-        activeEl?.tagName === 'INPUT' ||
-        activeEl?.tagName === 'TEXTAREA' ||
-        (activeEl as HTMLElement)?.isContentEditable;
+      // When the user is typing in any note, input, textarea, or contenteditable,
+      // do not interfere or trigger any hotkeys!
+      if (isUserTyping(e)) {
+        return;
+      }
+
+      // If an active pin popover is open, do not trigger inspect mode on hotkey C
+      if (activePinIdRef.current !== null && e.key.toLowerCase() === 'c') {
+        return;
+      }
 
       const isOptionOrAlt = e.altKey;
 
-      // Option+C (or Alt+C): Toggles inspect mode anywhere, even inside inputs or modal dialogs!
+      // Option+C (or Alt+C): Toggles inspect mode
       if (isOptionOrAlt && e.key.toLowerCase() === 'c') {
         e.preventDefault();
         setIsInspectActive((prev) => !prev);
         return;
       }
 
-      // Option+F (or Alt+F): Trigger Freeze countdown anywhere!
+      // Option+F (or Alt+F): Trigger Freeze countdown
       if (isOptionOrAlt && e.key.toLowerCase() === 'f') {
         e.preventDefault();
         handleTriggerFreeze();
@@ -106,7 +115,7 @@ export const AgentLens: React.FC<AgentLensProps> = ({
       }
 
       // Plain 'c' hotkey (when not typing in an input)
-      if (!isInput && e.key.toLowerCase() === 'c' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      if (e.key.toLowerCase() === 'c' && !e.metaKey && !e.ctrlKey && !e.altKey) {
         e.preventDefault();
         setIsInspectActive((prev) => !prev);
       } else if (e.key === 'Escape') {

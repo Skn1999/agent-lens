@@ -102,6 +102,28 @@ const DemoApp: React.FC = () => {
             Open Modal
           </button>
         </div>
+
+        <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 24 }}>
+          <h3 style={{ margin: '0 0 8px 0', fontSize: 18 }}>Input &amp; Typing Test</h3>
+          <p style={{ color: '#a1a1aa', fontSize: 14, margin: '0 0 16px 0' }}>
+            Type in this field — hotkeys like <code>C</code> or <code>Option + C</code> will never interrupt your typing.
+          </p>
+          <input
+            type="text"
+            placeholder="Type 'c' character here..."
+            style={{
+              width: '100%',
+              background: '#121216',
+              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: 8,
+              padding: '8px 12px',
+              color: '#fff',
+              fontSize: 14,
+              outline: 'none',
+              boxSizing: 'border-box',
+            }}
+          />
+        </div>
       </section>
 
       {modalOpen && (
